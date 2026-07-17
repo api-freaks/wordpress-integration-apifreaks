@@ -1,0 +1,34 @@
+.apifreaks-wrap .apifreaks-test-result {
+	margin-left: 8px;
+	font-weight: 600;
+}
+.apifreaks-wrap .apifreaks-test-result.ok {
+	color: #1a7f37;
+}
+.apifreaks-wrap .apifreaks-test-result.fail {
+	color: #b32d2e;
+}
+.apifreaks-reference code {
+	display: inline-block;
+	background: #f6f7f7;
+	padding: 2px 6px;
+	border-radius: 3px;
+	font-size: 12px;
+	line-height: 1.6;
+}
+.apifreaks-reference td {
+	vertical-align: top;
+}
+.apifreaks-wrap h2.title {
+	margin-top: 2em;
+	padding-top: 1em;
+	border-top: 1px solid #dcdcde;
+}
+.apifreaks-title {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+.apifreaks-title .apifreaks-logo {
+	border-radius: 6px;
+}
