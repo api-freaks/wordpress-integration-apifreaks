@@ -42,7 +42,24 @@ class APIFreaks_Settings {
 		if ( 'toplevel_page_apifreaks' !== $hook ) {
 			return;
 		}
+
 		wp_enqueue_style( 'apifreaks-admin', APIFREAKS_URL . 'assets/admin.css', array(), APIFREAKS_VERSION );
+
+		wp_enqueue_script( 'apifreaks-admin', APIFREAKS_URL . 'assets/admin.js', array(), APIFREAKS_VERSION, true );
+		wp_localize_script(
+			'apifreaks-admin',
+			'apifreaksAdmin',
+			array(
+				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+				'nonce'   => wp_create_nonce( 'apifreaks_test' ),
+				'i18n'    => array(
+					'show'    => __( 'Show', 'apifreaks' ),
+					'hide'    => __( 'Hide', 'apifreaks' ),
+					'testing' => __( 'Testing…', 'apifreaks' ),
+					'failed'  => __( 'Request failed.', 'apifreaks' ),
+				),
+			)
+		);
 	}
 
 	/**
@@ -195,48 +212,6 @@ class APIFreaks_Settings {
 
 			<?php $this->render_reference(); ?>
 		</div>
-
-		<script>
-		( function () {
-			var testBtn = document.getElementById( 'apifreaks-test' );
-			var result  = document.getElementById( 'apifreaks-test-result' );
-			var toggle  = document.getElementById( 'apifreaks-toggle-key' );
-			var keyEl   = document.getElementById( 'apifreaks_api_key' );
-
-			if ( toggle && keyEl ) {
-				toggle.addEventListener( 'click', function () {
-					var show = keyEl.type === 'password';
-					keyEl.type = show ? 'text' : 'password';
-					toggle.textContent = show ? '<?php echo esc_js( __( 'Hide', 'apifreaks' ) ); ?>' : '<?php echo esc_js( __( 'Show', 'apifreaks' ) ); ?>';
-				} );
-			}
-
-			if ( testBtn ) {
-				testBtn.addEventListener( 'click', function () {
-					result.textContent = '<?php echo esc_js( __( 'Testing…', 'apifreaks' ) ); ?>';
-					result.className = 'apifreaks-test-result';
-					var body = new FormData();
-					body.append( 'action', 'apifreaks_test' );
-					body.append( 'nonce', '<?php echo esc_js( wp_create_nonce( 'apifreaks_test' ) ); ?>' );
-					fetch( ajaxurl, { method: 'POST', credentials: 'same-origin', body: body } )
-						.then( function ( r ) { return r.json(); } )
-						.then( function ( json ) {
-							if ( json.success ) {
-								result.classList.add( 'ok' );
-								result.textContent = json.data.message;
-							} else {
-								result.classList.add( 'fail' );
-								result.textContent = json.data && json.data.message ? json.data.message : 'Error';
-							}
-						} )
-						.catch( function () {
-							result.classList.add( 'fail' );
-							result.textContent = '<?php echo esc_js( __( 'Request failed.', 'apifreaks' ) ); ?>';
-						} );
-				} );
-			}
-		} )();
-		</script>
 		<?php
 	}
 

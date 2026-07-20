@@ -247,15 +247,15 @@ class APIFreaks_Shortcodes {
 			// On failure, hide gated content for visitors; warn admins.
 			return current_user_can( 'manage_options' ) ? $this->soft_error( $match ) : '';
 		}
-		return $match ? do_shortcode( $content ) : '';
+		return $match ? wp_kses_post( do_shortcode( $content ) ) : '';
 	}
 
 	public function sc_if_not( $atts, $content = '' ) {
 		$match = $this->evaluate_conditions( (array) $atts );
 		if ( is_wp_error( $match ) ) {
-			return current_user_can( 'manage_options' ) ? $this->soft_error( $match ) : do_shortcode( $content );
+			return current_user_can( 'manage_options' ) ? $this->soft_error( $match ) : wp_kses_post( do_shortcode( $content ) );
 		}
-		return $match ? '' : do_shortcode( $content );
+		return $match ? '' : wp_kses_post( do_shortcode( $content ) );
 	}
 
 	/* ---------------------------------------------------------------------

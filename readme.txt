@@ -91,7 +91,7 @@ Responses are cached in WordPress transients for the lifetime you set on the set
 Please review the APIFreaks Terms of Service and Privacy Policy before use:
 
 * Terms of Service: https://apifreaks.com/terms
-* Privacy Policy: https://apifreaks.com/privacy
+* Privacy Policy: https://apifreaks.com/privacy-policy
 
 == Privacy ==
 
